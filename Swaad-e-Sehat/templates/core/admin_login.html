@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Admin Login | Swaad-e-Sehat</title>
+     <style>
+          body {
+               margin: 0;
+               font-family: Arial, sans-serif;
+               background: #f0f5f0;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               min-height: 100vh;
+          }
+
+          .login-box {
+               background: white;
+               width: 320px;
+               padding: 30px;
+               border-radius: 12px;
+               box-shadow: 0 5px 20px #0002;
+          }
+
+          h2 {
+               text-align: center;
+               color: #247447;
+          }
+
+          input,
+          button {
+               width: 100%;
+               box-sizing: border-box;
+               padding: 12px;
+               margin-top: 12px;
+               border-radius: 6px;
+          }
+
+          input {
+               border: 1px solid #ccc;
+          }
+
+          button {
+               background: #247447;
+               color: white;
+               border: none;
+               cursor: pointer;
+          }
+
+          .error {
+               color: red;
+               text-align: center;
+          }
+     </style>
+</head>
+
+<body>
+     <form class="login-box" method="post">
+          {% csrf_token %}
+          <h2>Admin Login</h2>
+          {% if error %}
+          <p class="error">{{ error }}</p>
+          {% endif %}
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+     </form>
+</body>
+
+</html>

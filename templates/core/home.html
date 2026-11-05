@@ -1,0 +1,478 @@
+{% extends 'base.html' %}
+{% block title %}Swaad-e-Sehat Cafe | Artisanal & Ayurvedic Contactless Dining{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --cafe-dark: #07130c;
+    --cafe-surface: rgba(14, 34, 25, 0.9);
+    --cafe-surface-card: rgba(18, 42, 31, 0.88);
+    --cafe-border: rgba(46, 196, 182, 0.25);
+    --cafe-accent: #2ec4b6;
+    --cafe-gold: #e9c46a;
+    --text-muted: #94a3b8;
+  }
+
+  body {
+    background-color: var(--cafe-dark) !important;
+    background-image: 
+      radial-gradient(circle at 10% 15%, rgba(46, 196, 182, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 90% 70%, rgba(233, 196, 106, 0.08) 0%, transparent 45%),
+      radial-gradient(rgba(46, 196, 182, 0.05) 1px, transparent 0) !important;
+    background-size: cover, cover, 26px 26px !important;
+    color: #e2e8f0;
+  }
+
+  /* Hero Section */
+  .hero-box {
+    background: linear-gradient(165deg, rgba(16, 42, 31, 0.82) 0%, rgba(7, 19, 12, 0.98) 100%);
+    border: 1px solid var(--cafe-border);
+    border-radius: 32px;
+    padding: 55px 45px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+  }
+
+  .hero-highlight {
+    background: linear-gradient(120deg, #2ec4b6, #e9c46a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .tag-badge {
+    background: rgba(233, 196, 106, 0.14);
+    color: var(--cafe-gold);
+    border: 1px solid rgba(233, 196, 106, 0.35);
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 7px 18px;
+    border-radius: 50px;
+    display: inline-block;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #e9c46a 0%, #caa13f 100%);
+    color: #06150e !important;
+    font-weight: 800;
+    font-size: 0.95rem;
+    border-radius: 14px;
+    padding: 13px 24px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(233, 196, 106, 0.3);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(233, 196, 106, 0.45);
+  }
+
+  .btn-outline-teal {
+    border: 1px solid var(--cafe-accent);
+    color: #ffffff !important;
+    background: rgba(46, 196, 182, 0.08);
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 14px;
+    padding: 13px 22px;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-outline-teal:hover {
+    background: var(--cafe-accent);
+    color: #06150e !important;
+  }
+
+  /* Ambience Gallery Cards */
+  .ambience-card {
+    background: var(--cafe-surface-card);
+    border: 1px solid var(--cafe-border);
+    border-radius: 24px;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .ambience-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--cafe-gold);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+  }
+
+  .ambience-img-box {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ambience-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .ambience-card:hover .ambience-img-box img {
+    transform: scale(1.08);
+  }
+
+  .ambience-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(7, 19, 12, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(233, 196, 106, 0.4);
+    color: var(--cafe-gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ambience-body {
+    padding: 22px;
+  }
+
+  /* Food Cards */
+  .food-card {
+    background: var(--cafe-surface-card);
+    border: 1px solid var(--cafe-border);
+    border-radius: 22px;
+    overflow: hidden;
+    transition: all 0.28s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .food-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--cafe-accent);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+  }
+
+  .food-img-wrap {
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    background: #0d2218;
+  }
+
+  .food-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .food-card:hover .food-img-wrap img {
+    transform: scale(1.06);
+  }
+
+  .food-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(7, 19, 12, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(233, 196, 106, 0.4);
+    color: var(--cafe-gold);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+
+  .food-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .food-price {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--cafe-accent);
+  }
+
+  /* Stats Strip */
+  .stats-strip {
+    background: rgba(14, 34, 25, 0.8);
+    border: 1px dashed var(--cafe-border);
+    border-radius: 22px;
+    padding: 26px 20px;
+    margin: 50px 0 20px;
+  }
+
+  .stat-val {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--cafe-gold);
+  }
+</style>
+
+<div class="container my-3">
+
+  <!-- Hero Section -->
+  <div class="hero-box">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <span class="tag-badge mb-3">
+          ✨ Ayurvedic Ambience & Smart Hospitality
+        </span>
+        <h1 class="hero-title mt-2 mb-3">
+          Experience Pure Taste,<br>
+          <span class="hero-highlight">From Counter to Table.</span>
+        </h1>
+        <p class="text-secondary mb-4" style="font-size: 1.05rem; line-height: 1.6; max-width: 550px;">
+          Swaad-e-Sehat Cafe me har table par luxury smart QR laga hai. Live counter se lekar handcrafted organic thali tak — bina line ya login ke order kijiye.
+        </p>
+
+        <div class="d-flex flex-wrap gap-3">
+          <a href="/menu/" class="btn-gold">
+            <i class="bi bi-book-half"></i> Explore Menu
+          </a>
+          <a href="/tables/print/1/" class="btn-outline-teal">
+            <i class="bi bi-qr-code-scan"></i> Table 1 QR Standee
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Visual Card: Live Counter Preview -->
+      <div class="col-lg-5">
+        <div class="p-2 rounded-4" style="background: rgba(22, 53, 38, 0.6); border: 2px solid rgba(233, 196, 106, 0.35); box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
+          <div class="rounded-4 overflow-hidden position-relative" style="height: 240px;">
+            <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80" alt="Cafe Brew Counter" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="position-absolute bottom-0 start-0 end-0 p-3" style="background: linear-gradient(180deg, transparent 0%, rgba(7,19,12,0.95) 100%);">
+              <span class="badge" style="background: var(--cafe-gold); color: #07130c; font-weight: 700;">Live Kitchen Bar</span>
+              <p class="text-white small mb-0 mt-1">Freshly brewed herbal infusions & live preparations</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cafe Ambience & Experience (Counter, Table, Kitchen, Courtyard) -->
+  <div class="my-5">
+    <div class="text-center mb-4">
+      <span class="tag-badge mb-2">🌿 Visual Tour</span>
+      <h2 class="fw-bold text-white" style="font-family: 'Playfair Display', Georgia, serif;">
+        The Swaad-e-Sehat Ambience
+      </h2>
+      <p class="text-secondary small mx-auto" style="max-width: 580px;">
+        Traditional Indian heritage meets contemporary rustic elegance — designed for conscious dining.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Card 1: Artisanal Tables -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ambience-card">
+          <div class="ambience-img-box">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Dining Tables">
+            <span class="ambience-tag">Dine-In Tables</span>
+          </div>
+          <div class="ambience-body">
+            <h5 class="fw-bold text-white mb-1">Smart QR Tables</h5>
+            <p class="text-secondary small mb-0">Reclaimed teakwood seating with personalized contactless QR acrylic standees.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Brew & Order Counter -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ambience-card">
+          <div class="ambience-img-box">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" alt="Cafe Brew Counter">
+            <span class="ambience-tag">Live Counter</span>
+          </div>
+          <div class="ambience-body">
+            <h5 class="fw-bold text-white mb-1">The Herbal Brew Bar</h5>
+            <p class="text-secondary small mb-0">Copper samovars, ceramic hand-pour drip bars, and open pastry displays.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Fresh Food & Plating -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ambience-card">
+          <div class="ambience-img-box">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="Organic Fresh Bowls">
+            <span class="ambience-tag">Sattvic Food</span>
+          </div>
+          <div class="ambience-body">
+            <h5 class="fw-bold text-white mb-1">Farm-Fresh Cuisine</h5>
+            <p class="text-secondary small mb-0">Slow-cooked millet bowls, herbal lattes, and cold-pressed pure extracts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Open Courtyard -->
+      <div class="col-md-6 col-lg-3">
+        <div class="ambience-card">
+          <div class="ambience-img-box">
+            <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=600&q=80" alt="Open Courtyard">
+            <span class="ambience-tag">Open Courtyard</span>
+          </div>
+          <div class="ambience-body">
+            <h5 class="fw-bold text-white mb-1">Serene Green Seating</h5>
+            <p class="text-secondary small mb-0">Sunlit leafy alcoves with potted neem, tulsi and natural clay earthen decor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Delicacies Section -->
+  <div class="my-5 pt-3">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+      <div>
+        <span class="tag-badge mb-2">🍽️ From The Live Kitchen</span>
+        <h2 class="fw-bold text-white mb-0" style="font-family: 'Playfair Display', Georgia, serif;">
+          Signature Food & Elixirs
+        </h2>
+      </div>
+      <a href="/menu/" class="btn btn-outline-light rounded-pill px-4">
+        Full Menu <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% if featured_foods %}
+        {% for food in featured_foods %}
+          <div class="col-md-6 col-lg-4">
+            <div class="food-card">
+              <div class="food-img-wrap">
+                {% if food.image %}
+                  <img src="{{ food.image.url }}" alt="{{ food.name }}">
+                {% else %}
+                  <div class="w-100 h-100 d-flex align-items-center justify-content-center text-secondary">
+                    <i class="bi bi-cup-hot fs-1"></i>
+                  </div>
+                {% endif %}
+                <span class="food-badge">
+                  {% if food.category %}{{ food.category.name }}{% else %}Organic{% endif %}
+                </span>
+              </div>
+              <div class="food-body">
+                <h5 class="fw-bold text-white mb-1">{{ food.name }}</h5>
+                <p class="text-secondary small mb-3 flex-grow-1" style="line-height: 1.5;">
+                  {{ food.description|truncatewords:14 }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                  <div class="food-price">₹{{ food.price }}</div>
+                  <a href="/orders/add-to-cart/{{ food.id }}/" class="btn btn-sm px-3 py-2 rounded-pill fw-bold" style="background: var(--cafe-accent); color: #06150e;">
+                    <i class="bi bi-cart-plus me-1"></i> Add
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <!-- Fallback Cards if DB is empty -->
+        <div class="col-md-4">
+          <div class="food-card">
+            <div class="food-img-wrap">
+              <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80" alt="Golden Milk">
+              <span class="food-badge">Ayurvedic</span>
+            </div>
+            <div class="food-body">
+              <h5 class="fw-bold text-white">Ashwagandha Golden Latte</h5>
+              <p class="text-secondary small mb-3">Fresh A2 milk brewed with haldi, elaichi & stress-relieving roots.</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                <span class="food-price">₹160</span>
+                <a href="/menu/" class="btn btn-sm btn-outline-light rounded-pill">Explore</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="food-card">
+            <div class="food-img-wrap">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80" alt="Sattvic Salad">
+              <span class="food-badge">Superfood</span>
+            </div>
+            <div class="food-body">
+              <h5 class="fw-bold text-white">Sattvic Millet Khichdi Bowl</h5>
+              <p class="text-secondary small mb-3">Foxtail millet, cold-pressed gir cow ghee & garden herbs.</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                <span class="food-price">₹220</span>
+                <a href="/menu/" class="btn btn-sm btn-outline-light rounded-pill">Explore</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="food-card">
+            <div class="food-img-wrap">
+              <img src="https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80" alt="Detox Tea">
+              <span class="food-badge">Detox Drink</span>
+            </div>
+            <div class="food-body">
+              <h5 class="fw-bold text-white">Brahmi Cold Infusion</h5>
+              <p class="text-secondary small mb-3">Wild organic brahmi leaves with vetiver infused overnight in clay pots.</p>
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                <span class="food-price">₹140</span>
+                <a href="/menu/" class="btn btn-sm btn-outline-light rounded-pill">Explore</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Quick Impact Stats -->
+  <div class="stats-strip">
+    <div class="row text-center g-3">
+      <div class="col-md-3 col-6">
+        <div class="stat-val">100%</div>
+        <small class="text-secondary">Organic Farm Sourced</small>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stat-val">Smart</div>
+        <small class="text-secondary">QR Linked Tables</small>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stat-val">Live</div>
+        <small class="text-secondary">Open Counter Kitchen</small>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stat-val">0 Wait</div>
+        <small class="text-secondary">Contactless Ordering</small>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

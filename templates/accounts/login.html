@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% block title %}Sign In | Swaad-e-Sehat Cafe{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --cafe-dark: #07130c;
+    --cafe-surface: rgba(14, 34, 25, 0.88);
+    --cafe-border: rgba(46, 196, 182, 0.28);
+    --cafe-accent: #2ec4b6;
+    --cafe-gold: #e9c46a;
+    --cafe-gold-glow: rgba(233, 196, 106, 0.35);
+  }
+
+  body {
+    background-color: var(--cafe-dark) !important;
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(46, 196, 182, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(233, 196, 106, 0.1) 0%, transparent 45%),
+      radial-gradient(rgba(46, 196, 182, 0.06) 1px, transparent 0) !important;
+    background-size: cover, cover, 28px 28px !important;
+    min-height: 100vh;
+  }
+
+  .login-wrapper {
+    min-height: 82vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .login-card {
+    background: var(--cafe-surface);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--cafe-border);
+    border-radius: 28px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(46, 196, 182, 0.15);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Left Brand Showcase */
+  .brand-sidebar {
+    background: linear-gradient(150deg, rgba(16, 42, 31, 0.95) 0%, rgba(6, 18, 12, 0.98) 100%);
+    border-right: 1px solid var(--cafe-border);
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .brand-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(233, 196, 106, 0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .brand-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-pill {
+    background: rgba(233, 196, 106, 0.15);
+    color: var(--cafe-gold);
+    border: 1px solid rgba(233, 196, 106, 0.35);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .feature-pill-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 35px 0;
+  }
+
+  .feature-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.92rem;
+    color: #cbd5e1;
+  }
+
+  .feature-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(46, 196, 182, 0.15);
+    border: 1px solid rgba(46, 196, 182, 0.3);
+    color: var(--cafe-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* Right Form Area */
+  .form-area {
+    padding: 50px 45px;
+  }
+
+  .input-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .input-box-wrapper {
+    position: relative;
+    margin-bottom: 22px;
+  }
+
+  .input-box-wrapper i.prefix-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cafe-accent);
+    font-size: 1.1rem;
+    pointer-events: none;
+    transition: all 0.2s ease;
+  }
+
+  .custom-input {
+    width: 100%;
+    background: rgba(8, 20, 14, 0.75) !important;
+    border: 1px solid rgba(46, 196, 182, 0.28) !important;
+    color: #ffffff !important;
+    border-radius: 14px;
+    padding: 13px 18px 13px 48px;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+  }
+
+  .custom-input:focus {
+    border-color: var(--cafe-gold) !important;
+    box-shadow: 0 0 0 3px var(--cafe-gold-glow) !important;
+    outline: none;
+  }
+
+  .custom-input::placeholder {
+    color: #64748b !important;
+  }
+
+  /* Submit Button */
+  .btn-login-submit {
+    background: linear-gradient(135deg, #2ec4b6 0%, #17897e 100%);
+    color: #07160e !important;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 14px;
+    padding: 14px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 10px 25px rgba(46, 196, 182, 0.35);
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .btn-login-submit:hover {
+    background: linear-gradient(135deg, #38e1d2 0%, #1ea598 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(46, 196, 182, 0.45);
+  }
+
+  .guest-quick-alert {
+    background: rgba(233, 196, 106, 0.08);
+    border: 1px dashed rgba(233, 196, 106, 0.35);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 26px;
+  }
+</style>
+
+<div class="container login-wrapper">
+  <div class="login-card w-100" style="max-width: 960px;">
+    <div class="row g-0">
+      
+      <!-- Left: Cafe Experience & Perks -->
+      <div class="col-lg-5 d-none d-lg-flex brand-sidebar">
+        <div>
+          <span class="tag-pill">✨ Artisanal Dining</span>
+          <h2 class="brand-title">स्वाद-e-सेहत</h2>
+          <p class="text-secondary small mt-2">
+            Harmonizing centuries-old Ayurvedic traditions with effortless, modern contactless hospitality.
+          </p>
+
+          <div class="feature-pill-box">
+            <div class="feature-row">
+              <div class="feature-icon-wrap"><i class="bi bi-qr-code-scan"></i></div>
+              <span>Scan table QR to dine without waiting</span>
+            </div>
+            <div class="feature-row">
+              <div class="feature-icon-wrap"><i class="bi bi-shield-check"></i></div>
+              <span>Staff portal for live kitchen routing</span>
+            </div>
+            <div class="feature-row">
+              <div class="feature-icon-wrap"><i class="bi bi-clock-history"></i></div>
+              <span>Real-time order tracking & status logs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-top border-secondary border-opacity-25 pt-3">
+          <small class="text-secondary">
+            Dining at our cafe right now? <br>
+            <a href="/menu/" class="fw-bold" style="color: var(--cafe-accent); text-decoration: none;">
+              Explore Menu as Guest &rarr;
+            </a>
+          </small>
+        </div>
+      </div>
+
+      <!-- Right: Form Box -->
+      <div class="col-lg-7 form-area">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h3 class="fw-bold text-white mb-1" style="font-family: 'Playfair Display', Georgia, serif;">
+              Welcome Back
+            </h3>
+            <p class="text-secondary small mb-0">Sign in to your staff or patron account</p>
+          </div>
+          <span class="badge px-3 py-2 rounded-pill" style="background: rgba(46,196,182,0.15); color: var(--cafe-accent); border: 1px solid rgba(46,196,182,0.3);">
+            Portal Access
+          </span>
+        </div>
+
+        {% if form.errors %}
+          <div class="alert alert-danger py-2 px-3 rounded-3 small mb-4" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5;">
+            <i class="bi bi-exclamation-triangle-fill me-1"></i> Invalid username or password. Please verify and try again.
+          </div>
+        {% endif %}
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-info py-2 px-3 rounded-3 small mb-4" style="background: rgba(46, 196, 182, 0.2); border: 1px solid var(--cafe-accent); color: #fff;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <!-- Username Input -->
+          <div class="mb-3">
+            <label class="input-label">
+              <i class="bi bi-person text-secondary"></i> Username or Registered Email
+            </label>
+            <div class="input-box-wrapper">
+              <i class="bi bi-person-fill prefix-icon"></i>
+              <input type="text" name="username" class="custom-input" placeholder="e.g. chef or manager" required autofocus>
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="input-label">
+                <i class="bi bi-key text-secondary"></i> Password
+              </label>
+            </div>
+            <div class="input-box-wrapper">
+              <i class="bi bi-lock-fill prefix-icon"></i>
+              <input type="password" name="password" id="loginPassword" class="custom-input" placeholder="••••••••••••" required>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-login-submit">
+            <span>Enter Cafe Portal</span>
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- College Demo Highlight Badge -->
+        <div class="guest-quick-alert d-flex align-items-center gap-3">
+          <i class="bi bi-info-circle-fill fs-4" style="color: var(--cafe-gold);"></i>
+          <small class="text-secondary" style="font-size: 0.8rem; line-height: 1.4;">
+            <strong class="text-white">College Demo Tip:</strong> Customers don't need credentials! Scan any Table QR code to order seamlessly with zero login friction.
+          </small>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

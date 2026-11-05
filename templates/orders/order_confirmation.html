@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block title %}Order Confirmed | Swaad-e-Sehat Cafe{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --cafe-dark: #0a1811;
+    --cafe-card: rgba(18, 40, 30, 0.9);
+    --cafe-border: rgba(46, 196, 182, 0.25);
+    --cafe-accent: #2ec4b6;
+    --cafe-gold: #e9c46a;
+    --text-muted: #94a3b8;
+  }
+
+  body {
+    background-color: var(--cafe-dark) !important;
+    background-image: radial-gradient(rgba(46, 196, 182, 0.08) 1px, transparent 0), radial-gradient(rgba(233, 196, 106, 0.05) 1px, #0a1811 0) !important;
+    background-size: 26px 26px !important;
+    color: #e2e8f0;
+  }
+
+  .confirm-wrapper {
+    max-width: 650px;
+    margin: 40px auto;
+  }
+
+  .confirm-card {
+    background: var(--cafe-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--cafe-border);
+    border-radius: 26px;
+    padding: 40px 35px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  .success-glow-icon {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    background: rgba(46, 196, 182, 0.15);
+    border: 2px solid var(--cafe-accent);
+    color: var(--cafe-accent);
+    font-size: 2.5rem;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 25px rgba(46, 196, 182, 0.35);
+  }
+
+  .receipt-box {
+    background: rgba(10, 24, 17, 0.8);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: left;
+    margin: 25px 0;
+  }
+
+  .receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+  }
+
+  .receipt-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .receipt-total {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 14px;
+    margin-top: 14px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .btn-track {
+    background: linear-gradient(135deg, #2ec4b6, #168178);
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 14px;
+    padding: 13px 25px;
+    display: inline-block;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(46, 196, 182, 0.35);
+    transition: all 0.25s ease;
+  }
+
+  .btn-track:hover {
+    background: linear-gradient(135deg, #3cd7c8, #1f9e93);
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="container">
+  <div class="confirm-wrapper">
+    <div class="confirm-card">
+      <div class="success-glow-icon">
+        <i class="bi bi-check-lg"></i>
+      </div>
+
+      <span class="badge px-3 py-2 rounded-pill mb-2" style="background: rgba(233, 196, 106, 0.15); color: var(--cafe-gold); border: 1px solid rgba(233, 196, 106, 0.3);">
+        🍃 Order Received & Sent to Kitchen
+      </span>
+
+      <h2 class="fw-bold text-white mt-2" style="font-family: 'Playfair Display', Georgia, serif;">
+        Shukriya, {{ order.customer_name|default:"Dear Guest" }}!
+      </h2>
+      <p class="text-secondary small">
+        Aapka order live kitchen me receive ho chuka hai aur organic ingredients ke sath prepare kiya ja raha hai.
+      </p>
+
+      <!-- Receipt Summary -->
+      <div class="receipt-box">
+        <div class="receipt-row">
+          <span>Order Reference</span>
+          <span class="text-white fw-bold">#{{ order.id }}</span>
+        </div>
+        <div class="receipt-row">
+          <span>Dining Type</span>
+          <span class="badge bg-dark border border-secondary text-capitalize">{{ order.order_type }}</span>
+        </div>
+        {% if order.table %}
+        <div class="receipt-row">
+          <span>Assigned Table</span>
+          <span class="text-warning fw-bold">{{ order.table }}</span>
+        </div>
+        {% endif %}
+        <div class="receipt-row">
+          <span>Phone Contact</span>
+          <span class="text-white">{{ order.phone }}</span>
+        </div>
+        <div class="receipt-row">
+          <span>Payment Status</span>
+          <span class="text-info">Pay at Counter</span>
+        </div>
+
+        <div class="receipt-row receipt-total">
+          <span>Total Amount</span>
+          <span style="color: var(--cafe-gold);">₹{{ order.total_amount }}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="/orders/track/{{ order.access_token }}/" class="btn-track">
+          <i class="bi bi-geo-alt me-1"></i> Track Live Status
+        </a>
+        <a href="/menu/" class="btn btn-outline-light px-4 py-2" style="border-radius: 14px; font-weight: 600;">
+          Order More Items
+        </a>
+      </div>
+
+      <div class="mt-4 pt-2">
+        <small class="text-secondary">
+          🌾 Freshly grounded spices & pure organic ingredients.
+        </small>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

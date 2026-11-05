@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container text-center py-5">
+  <div class="card p-4 border-0 shadow-sm mx-auto" style="max-width: 500px;">
+    <h2 class="text-success">Welcome to Table #{{ table.table_number }}!</h2>
+    <p class="text-muted">Table identify ho chuki hai. Aap bina kisi wait ke direct order kar sakte hain.</p>
+    <a href="{% url 'menu_list' %}" class="btn btn-cafe btn-lg mt-3">Browse Menu & Order Now</a>
+  </div>
+</div>
+{% endblock %}

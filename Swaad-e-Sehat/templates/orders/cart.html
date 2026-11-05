@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | Swaad-e-Sehat Cafe</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8f2;
+            margin: 0;
+            padding: 20px;
+            color: #263528;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        button, .button {
+            background: #245c3a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        input {
+            padding: 8px;
+            width: 60px;
+        }
+
+        .remove {
+            background: #b83232;
+        }
+
+        .total {
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>🛒 Your Cart</h1>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {% for item in cart_items %}
+        <div class="cart-item">
+            <h3>{{ item.food.name }}</h3>
+            <p>Price: ₹{{ item.food.price }}</p>
+            <p>Subtotal: ₹{{ item.subtotal }}</p>
+
+            <form action="{% url 'update_cart' item.food.id %}" method="post">
+                {% csrf_token %}
+                <label>Quantity:</label>
+                <input type="number" name="quantity"
+                       value="{{ item.quantity }}" min="1" max="99" required>
+                <button type="submit">Update</button>
+            </form>
+
+            <br>
+
+            <form action="{% url 'remove_from_cart' item.food.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="remove">Remove</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>Your cart is empty.</p>
+    {% endfor %}
+
+    <p class="total">Total: ₹{{ total }}</p>
+
+    {% if cart_items %}
+        <a class="button" href="{% url 'checkout' %}">Proceed to Checkout</a>
+    {% endif %}
+
+    <p><a href="/">← Continue Shopping</a></p>
+</div>
+</body>
+</html>

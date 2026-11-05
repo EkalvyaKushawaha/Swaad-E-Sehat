@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Delivery Staff Dashboard</h2>
+  <div class="row g-4 mt-2">
+    {% for a in assignments %}
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm border-0">
+          <h5>Order: {{ a.order.order_number }}</h5>
+          <p class="mb-1"><strong>Customer:</strong> {{ a.order.customer_name }} ({{ a.order.phone }})</p>
+          <p class="mb-2"><strong>Address:</strong> {{ a.order.delivery_address }}</p>
+          <a href="{{ a.google_maps_directions_url }}" target="_blank" class="btn btn-outline-primary btn-sm mb-3">📍 Open Google Maps Directions</a>
+          <form action="{% url 'update_delivery_status' a.id %}" method="post" class="d-flex gap-2">
+            {% csrf_token %}
+            <select name="status" class="form-select form-select-sm">
+              <option value="assigned" {% if a.delivery_status == 'assigned' %}selected{% endif %}>Assigned</option>
+              <option value="out_for_delivery" {% if a.delivery_status == 'out_for_delivery' %}selected{% endif %}>Out for Delivery</option>
+              <option value="delivered" {% if a.delivery_status == 'delivered' %}selected{% endif %}>Delivered</option>
+            </select>
+            <button class="btn btn-cafe btn-sm" type="submit">Update</button>
+          </form>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">Koi assigned delivery order nahi hai.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

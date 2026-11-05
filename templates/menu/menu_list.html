@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% block title %}Artisanal Menu | Swaad-e-Sehat Cafe{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --cafe-dark: #0a1811;
+    --cafe-card: rgba(18, 40, 30, 0.88);
+    --cafe-border: rgba(46, 196, 182, 0.22);
+    --cafe-accent: #2ec4b6;
+    --cafe-gold: #e9c46a;
+    --cafe-sand: #f4a261;
+    --text-muted: #94a3b8;
+  }
+
+  body {
+    background-color: var(--cafe-dark) !important;
+    background-image: radial-gradient(rgba(46, 196, 182, 0.1) 1px, transparent 0), radial-gradient(rgba(233, 196, 106, 0.06) 1px, #0a1811 0) !important;
+    background-size: 26px 26px !important;
+    color: #e2e8f0;
+  }
+
+  .menu-hero {
+    position: relative;
+    border-radius: 26px;
+    padding: 70px 35px;
+    margin-top: 15px;
+    margin-bottom: 45px;
+    background: linear-gradient(180deg, rgba(10, 24, 17, 0.5) 0%, rgba(10, 24, 17, 0.95) 100%),
+      url('https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  .menu-badge {
+    background: rgba(46, 196, 182, 0.15);
+    border: 1px solid rgba(46, 196, 182, 0.4);
+    color: var(--cafe-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 30px;
+    display: inline-block;
+  }
+
+  .menu-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 15px;
+    margin-bottom: 12px;
+  }
+
+  .category-filter-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .cat-link {
+    padding: 10px 22px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .cat-link:hover,
+  .cat-link.active {
+    background: linear-gradient(135deg, var(--cafe-accent), #168178);
+    color: #fff;
+    border-color: var(--cafe-accent);
+    box-shadow: 0 6px 18px rgba(46, 196, 182, 0.35);
+    transform: translateY(-2px);
+  }
+
+  .menu-dish-card {
+    background: var(--cafe-card);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--cafe-border);
+    border-radius: 22px;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .menu-dish-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cafe-accent);
+    box-shadow: 0 20px 45px rgba(46, 196, 182, 0.25);
+  }
+
+  .dish-img-container {
+    position: relative;
+    height: 225px;
+    overflow: hidden;
+    background: #06100b;
+  }
+
+  .dish-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .menu-dish-card:hover .dish-img {
+    transform: scale(1.08);
+  }
+
+  .veg-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(10, 24, 17, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(233, 196, 106, 0.4);
+    color: var(--cafe-gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 18px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .dish-card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .dish-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+
+  .dish-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .dish-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 15px;
+    margin-top: auto;
+  }
+
+  .dish-price-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--cafe-accent);
+  }
+
+  .btn-cart-custom {
+    background: linear-gradient(135deg, #2ec4b6, #1b6a62);
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 9px 18px;
+    border-radius: 12px;
+    border: none;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-cart-custom:hover {
+    background: linear-gradient(135deg, #38d6c7, #218379);
+    box-shadow: 0 6px 18px rgba(46, 196, 182, 0.4);
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="container my-4">
+
+  <!-- Header Banner -->
+  <div class="menu-hero">
+    <span class="menu-badge">🌿 100% Artisanal & Pure</span>
+    <h1 class="menu-title">Hamara Khaas Menu</h1>
+    <p class="lead text-light mb-0 mx-auto" style="max-width: 650px; color: #cbd5e1 !important; font-size: 1.05rem;">
+      Taaze organic fal-sabziyon, cold-pressed tel aur Ayurvedic masalon se taiyar kiye gaye swadisht aur paushtik
+      vyanjan.
+    </p>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="category-filter-wrap">
+    <a href="/menu/" class="cat-link active"><i class="bi bi-grid-fill me-1"></i> All Items</a>
+    {% for cat in categories %}
+    <a href="?category={{ cat.id }}" class="cat-link">{{ cat.name }}</a>
+    {% endfor %}
+  </div>
+
+  <!-- Food Items Grid -->
+  <div class="row g-4">
+    {% for item in foods %}
+    <div class="col-md-6 col-lg-4">
+      <div class="menu-dish-card">
+        <div class="dish-img-container">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.name }}" class="dish-img">
+          {% else %}
+          {% if 'salad' in item.name.lower %}
+          <img src="/media/food_items/salad.jpg" alt="{{ item.name }}" class="dish-img">
+          {% elif 'bowl' in item.name.lower %}
+          <img src="/media/food_items/bowl.jpg" alt="{{ item.name }}" class="dish-img">
+          {% elif 'juice' in item.name.lower %}
+          <img src="/media/food_items/juice.jpg" alt="{{ item.name }}" class="dish-img">
+          {% elif 'tea' in item.name.lower %}
+          <img src="/media/food_items/tea.jpg" alt="{{ item.name }}" class="dish-img">
+          {% elif 'soup' in item.name.lower %}
+          <img src="/media/food_items/soup.jpg" alt="{{ item.name }}" class="dish-img">
+          {% else %}
+          <img src="/media/food_items/default.jpg" alt="{{ item.name }}" class="dish-img">
+          {% endif %}
+          {% endif %}
+          <span class="veg-tag">{{ item.category.name|default:"Special Recipe" }}</span>
+        </div>
+
+        <div class="dish-card-body">
+          <h4 class="dish-title">{{ item.name }}</h4>
+          <p class="dish-desc">
+            {{ item.description|default:"Prakritik tatvon aur shuddh masalon se bna hua, sehat aur swaad ka lajawab
+            sangam."|truncatewords:16 }}
+          </p>
+          <div class="dish-footer-row">
+            <div class="dish-price-text">₹{{ item.price }}</div>
+            {% if item.id %}
+            <a href="/orders/cart/add/{{ item.id }}/" class="btn-cart-custom">
+              <i class="bi bi-cart-plus"></i> Add to Order
+            </a>
+            <i class="bi bi-cart-plus"></i> Add to Order
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <div class="p-5 rounded-4" style="background: rgba(18, 40, 30, 0.5); border: 1px dashed rgba(255,255,255,0.15);">
+        <i class="bi bi-cup-straw display-4 text-muted mb-3 d-block"></i>
+        <h4 class="text-white">Is category mein abhi items load ho rahe hain.</h4>
+        <p class="text-muted">Kripya thodi der baad dekhein ya All Items par click karein.</p>
+        <a href="/menu/" class="btn btn-outline-light mt-2" style="border-radius: 12px;">Saare Items Dekhein</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

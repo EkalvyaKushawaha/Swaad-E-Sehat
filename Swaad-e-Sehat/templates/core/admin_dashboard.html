@@ -1,0 +1,636 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard | Swaad-e-Sehat{% endblock %}
+
+{% block content %}
+<style>
+     * {
+          box-sizing: border-box;
+     }
+
+     .dashboard {
+          display: flex;
+          min-height: 85vh;
+          background: #f4f7f6;
+          color: #243247;
+     }
+
+     .sidebar {
+          width: 235px;
+          flex-shrink: 0;
+          background: #101b2d;
+          color: white;
+          padding: 25px 17px;
+     }
+
+     .brand {
+          font-size: 20px;
+          font-weight: 800;
+          margin: 0 8px 5px;
+     }
+
+     .tagline {
+          font-size: 12px;
+          color: #aebdce;
+          margin: 0 8px 25px;
+     }
+
+     .sidebar-label {
+          font-size: 10px;
+          letter-spacing: 1.3px;
+          color: #8fa1b6;
+          margin: 22px 8px 8px;
+          text-transform: uppercase;
+     }
+
+     .sidebar a {
+          display: block;
+          color: #dce6ef;
+          text-decoration: none;
+          padding: 11px 12px;
+          border-radius: 8px;
+          margin: 4px 0;
+          font-size: 14px;
+     }
+
+     .sidebar a:hover,
+     .sidebar a.active {
+          background: #263b55;
+          color: white;
+     }
+
+     .main {
+          flex: 1;
+          min-width: 0;
+          padding: 28px;
+     }
+
+     .topbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-bottom: 24px;
+     }
+
+     .topbar h1 {
+          font-size: 27px;
+          margin: 0 0 5px;
+          color: #17263d;
+     }
+
+     .subtitle {
+          color: #718096;
+          font-size: 13px;
+          margin: 0;
+     }
+
+     .admin-user {
+          background: white;
+          border: 1px solid #e5ebe8;
+          border-radius: 10px;
+          padding: 10px 14px;
+          font-size: 13px;
+     }
+
+     .messages {
+          margin-bottom: 16px;
+     }
+
+     .message {
+          padding: 12px 14px;
+          border-radius: 8px;
+          background: #e8f7ef;
+          color: #176b49;
+          margin: 6px 0;
+          font-size: 14px;
+     }
+
+     .stats {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 14px;
+          margin-bottom: 24px;
+     }
+
+     .stat-card,
+     .panel {
+          background: white;
+          border: 1px solid #e5ebe8;
+          border-radius: 12px;
+          box-shadow: 0 3px 12px #17263d08;
+     }
+
+     .stat-card {
+          padding: 18px;
+     }
+
+     .stat-label {
+          font-size: 12px;
+          color: #718096;
+          margin-bottom: 8px;
+     }
+
+     .stat-number {
+          font-size: 28px;
+          font-weight: 800;
+          color: #17263d;
+     }
+
+     .stat-note {
+          font-size: 11px;
+          color: #718096;
+          margin-top: 4px;
+     }
+
+     .panel {
+          padding: 20px;
+          margin-bottom: 22px;
+     }
+
+     .panel-heading {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-bottom: 16px;
+     }
+
+     .panel-heading h2 {
+          font-size: 18px;
+          margin: 0;
+          color: #17263d;
+     }
+
+     .panel-description {
+          font-size: 12px;
+          color: #718096;
+          margin: 5px 0 0;
+     }
+
+     .btn {
+          display: inline-block;
+          border: 0;
+          border-radius: 8px;
+          padding: 9px 13px;
+          font-size: 12px;
+          font-weight: 700;
+          text-decoration: none;
+          cursor: pointer;
+     }
+
+     .btn-primary {
+          background: #1e9b69;
+          color: white;
+     }
+
+     .btn-primary:hover {
+          background: #168456;
+     }
+
+     .table-wrap {
+          width: 100%;
+          overflow-x: auto;
+     }
+
+     table {
+          width: 100%;
+          border-collapse: collapse;
+          min-width: 760px;
+     }
+
+     th {
+          text-align: left;
+          font-size: 11px;
+          text-transform: uppercase;
+          color: #718096;
+          background: #f7f9f8;
+          padding: 12px;
+     }
+
+     td {
+          padding: 13px 12px;
+          border-bottom: 1px solid #e5ebe8;
+          font-size: 13px;
+          vertical-align: middle;
+     }
+
+     tbody tr:last-child td {
+          border-bottom: 0;
+     }
+
+     .status-pill {
+          display: inline-block;
+          padding: 5px 9px;
+          border-radius: 20px;
+          background: #edf2f7;
+          color: #43546a;
+          font-size: 11px;
+          font-weight: 700;
+     }
+
+     .status-pill.pending {
+          background: #fff4df;
+          color: #95600c;
+     }
+
+     .status-pill.preparing {
+          background: #e8f1ff;
+          color: #245b9c;
+     }
+
+     .status-pill.completed {
+          background: #e5f7ed;
+          color: #18734a;
+     }
+
+     .status-pill.cancelled {
+          background: #fdeaea;
+          color: #a83232;
+     }
+
+     .status-form {
+          display: flex;
+          gap: 6px;
+          align-items: center;
+     }
+
+     .status-form select {
+          min-width: 115px;
+          border: 1px solid #dce4e0;
+          border-radius: 7px;
+          padding: 7px;
+          font-size: 12px;
+          background: white;
+     }
+
+     .empty-state {
+          text-align: center;
+          padding: 30px 12px;
+          color: #718096;
+          font-size: 14px;
+     }
+
+     .food-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 13px;
+     }
+
+     .food-card {
+          border: 1px solid #e5ebe8;
+          border-radius: 10px;
+          padding: 13px;
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          min-width: 0;
+     }
+
+     .food-image,
+     .food-placeholder {
+          width: 64px;
+          height: 64px;
+          object-fit: cover;
+          border-radius: 8px;
+          background: #edf2f0;
+          flex-shrink: 0;
+     }
+
+     .food-placeholder {
+          display: grid;
+          place-items: center;
+          font-size: 24px;
+     }
+
+     .food-info {
+          min-width: 0;
+     }
+
+     .food-name {
+          font-weight: 700;
+          font-size: 14px;
+          margin-bottom: 4px;
+     }
+
+     .food-price {
+          color: #1e9b69;
+          font-weight: 800;
+          font-size: 13px;
+     }
+
+     .food-description {
+          font-size: 11px;
+          color: #718096;
+          margin-top: 4px;
+          overflow-wrap: anywhere;
+     }
+
+     .availability {
+          font-size: 10px;
+          font-weight: 700;
+          margin-top: 5px;
+     }
+
+     .available {
+          color: #168456;
+     }
+
+     .unavailable {
+          color: #b34a4a;
+     }
+
+     @media (max-width: 1000px) {
+          .stats {
+               grid-template-columns: repeat(2, 1fr);
+          }
+
+          .food-grid {
+               grid-template-columns: repeat(2, 1fr);
+          }
+     }
+
+     @media (max-width: 650px) {
+          .dashboard {
+               display: block;
+          }
+
+          .sidebar {
+               width: auto;
+               padding: 16px;
+          }
+
+          .sidebar nav {
+               display: flex;
+               gap: 5px;
+               overflow-x: auto;
+          }
+
+          .sidebar-label {
+               display: none;
+          }
+
+          .sidebar a {
+               white-space: nowrap;
+               padding: 9px;
+          }
+
+          .main {
+               padding: 16px 11px;
+          }
+
+          .stats {
+               gap: 9px;
+          }
+
+          .stat-card {
+               padding: 13px;
+          }
+
+          .stat-number {
+               font-size: 23px;
+          }
+
+          .panel {
+               padding: 14px;
+          }
+
+          .food-grid {
+               grid-template-columns: 1fr;
+          }
+     }
+</style>
+
+<div class="dashboard">
+
+     <aside class="sidebar">
+          <div class="brand">🥗 Swaad-e-Sehat</div>
+          <p class="tagline">Healthy food, happy life</p>
+
+          <div class="sidebar-label">Main Menu</div>
+
+          <nav>
+               <a class="active" href="{% url 'admin_dashboard' %}">▦ Dashboard</a>
+               <a href="#orders">▤ Orders</a>
+               <a href="#food-menu">♨ Food Menu</a>
+               <a href="{% url 'add_food' %}">＋ Add Food Item</a>
+          </nav>
+
+          <div class="sidebar-label">Account</div>
+
+          <nav>
+               <a href="{% url 'admin_logout' %}">↪ Logout</a>
+          </nav>
+     </aside>
+
+     <main class="main">
+
+          <header class="topbar">
+               <div>
+                    <h1>Admin Dashboard</h1>
+                    <p class="subtitle">
+                         Manage your cafe orders and food menu.
+                    </p>
+               </div>
+
+               <div class="admin-user">
+                    Welcome, <strong>{{ request.user.username }}</strong>
+               </div>
+          </header>
+
+          {% if messages %}
+          <div class="messages">
+               {% for message in messages %}
+               <div class="message">{{ message }}</div>
+               {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Dashboard Statistics -->
+          <section class="stats">
+
+               <div class="stat-card">
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-number">{{ total_orders|default:0 }}</div>
+                    <div class="stat-note">All received orders</div>
+               </div>
+
+               <div class="stat-card">
+                    <div class="stat-label">Pending Orders</div>
+                    <div class="stat-number">{{ pending_orders|default:0 }}</div>
+                    <div class="stat-note">Waiting for action</div>
+               </div>
+
+               <div class="stat-card">
+                    <div class="stat-label">Preparing Orders</div>
+                    <div class="stat-number">{{ preparing_orders|default:0 }}</div>
+                    <div class="stat-note">Currently being prepared</div>
+               </div>
+
+               <div class="stat-card">
+                    <div class="stat-label">Completed Orders</div>
+                    <div class="stat-number">{{ completed_orders|default:0 }}</div>
+                    <div class="stat-note">Successfully completed</div>
+               </div>
+
+          </section>
+
+          <!-- Orders Section -->
+          <section class="panel" id="orders">
+
+               <div class="panel-heading">
+                    <div>
+                         <h2>Recent Orders</h2>
+                         <p class="panel-description">
+                              Review customer orders and update their status.
+                         </p>
+                    </div>
+               </div>
+
+               {% if orders %}
+
+               <div class="table-wrap">
+                    <table>
+                         <thead>
+                              <tr>
+                                   <th>Order ID</th>
+                                   <th>Customer</th>
+                                   <th>Phone</th>
+                                   <th>Order Type</th>
+                                   <th>Total</th>
+                                   <th>Status</th>
+                                   <th>Update Status</th>
+                                   <th>Order Date</th>
+                              </tr>
+                         </thead>
+
+                         <tbody>
+                              {% for order in orders %}
+                              <tr>
+                                   <td><strong>#{{ order.id }}</strong></td>
+                                   <td>{{ order.customer_name }}</td>
+                                   <td>{{ order.phone }}</td>
+                                   <td>{{ order.get_order_type_display }}</td>
+                                   <td>₹{{ order.total_amount }}</td>
+
+                                   <td>
+                                        <span class="status-pill {{ order.status|lower }}">
+                                             {{ order.get_status_display }}
+                                        </span>
+                                   </td>
+
+                                   <td>
+                                        <form method="post" class="status-form">
+                                             {% csrf_token %}
+
+                                             <input type="hidden" name="order_id" value="{{ order.id }}">
+
+                                             <select name="status">
+                                                  <option value="pending">Pending</option>
+                                                  <option value="confirmed">Confirmed</option>
+                                                  <option value="preparing">Preparing</option>
+                                                  <option value="ready">Ready</option>
+                                                  <option value="completed">Completed</option>
+                                                  <option value="cancelled">Cancelled</option>
+                                             </select>
+
+                                             <button type="submit">Update</button>
+                                        </form>
+                                   </td>
+
+                                   <td>
+                                        {{ order.created_at|date:"d M Y, h:i A" }}
+                                   </td>
+                              </tr>
+                              {% endfor %}
+                         </tbody>
+                    </table>
+               </div>
+
+               {% else %}
+
+               <div class="empty-state">
+                    No orders have been received yet.
+               </div>
+               < {% endif %} </section>
+
+                    <!-- Food Menu Section -->
+                    <section class="panel" id="food-menu">
+
+                         <div class="panel-heading">
+                              <div>
+                                   <h2>Food Menu</h2>
+                                   <p class="panel-description">
+                                        Food items currently saved in your menu.
+                                   </p>
+                              </div>
+
+                              <a class="btn btn-primary" href="{% url 'add_food' %}">
+                                   ＋ Add New Food
+                              </a>
+                         </div>
+
+                         {% if food_items %}
+
+                         <div class="food-grid">
+
+                              {% for food in food_items %}
+
+                              <article class="food-card">
+
+                                   {% if food.image %}
+                                   <img class="food-image" src="{{ food.image.url }}" alt="{{ food.name }}">
+                                   {% else %}
+                                   <div class="food-placeholder">🥗</div>
+                                   {% endif %}
+
+                                   <div class="food-info">
+
+                                        <div class="food-name">
+                                             {{ food.name }}
+                                        </div>
+
+                                        <div class="food-price">
+                                             ₹{{ food.price }}
+                                        </div>
+
+                                        {% if food.description %}
+                                        <div class="food-description">
+                                             {{ food.description }}
+                                        </div>
+                                        {% endif %}
+
+                                        {% if food.is_available %}
+                                        <div class="availability available">
+                                             ● Available
+                                        </div>
+                                        {% else %}
+                                        <div class="availability unavailable">
+                                             ● Not available
+                                        </div>
+                                        {% endif %}
+
+                                   </div>
+                              </article>
+
+                              {% endfor %}
+
+                         </div>
+
+                         {% else %}
+
+                         <div class="empty-state">
+                              No food items found. Use “Add New Food” to add your first item.
+                         </div>
+
+                         {% endif %}
+
+                    </section>
+
+     </main>
+</div>
+
+{% endblock %}

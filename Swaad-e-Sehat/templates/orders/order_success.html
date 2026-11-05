@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Swaad-e-Sehat Cafe</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8f2;
+            padding: 20px;
+            color: #263528;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 7px 0 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #245c3a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Checkout</h1>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <h3>Order Summary</h3>
+
+    {% for item in cart_items %}
+        <p>{{ item.food.name }} × {{ item.quantity }} — ₹{{ item.subtotal }}</p>
+    {% endfor %}
+
+    <h3>Total: ₹{{ total }}</h3>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Customer Name</label>
+        <input type="text" name="customer_name" required>
+
+        <label>Phone Number</label>
+        <input type="tel" name="phone" maxlength="15" required>
+
+        <label>Order Type</label>
+        <select name="order_type" required>
+            <option value="">Select Order Type</option>
+            <option value="dine_in">Dine In</option>
+            <option value="takeaway">Takeaway</option>
+            <option value="delivery">Home Delivery</option>
+        </select>
+
+        <label>Table Number (Dine In only)</label>
+        <input type="number" name="table_number" min="1">
+
+        <label>Address (Home Delivery only)</label>
+        <textarea name="address" rows="3"></textarea>
+
+        <p>Payment: Cash at counter / Cash on delivery</p>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+    <p><a href="{% url 'cart_detail' %}">← Back to Cart</a></p>
+</div>
+</body>
+</html>

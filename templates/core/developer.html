@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Lead Architect & Developer | Sachin Maurya{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --cafe-dark: #07130c;
+    --cafe-surface: rgba(14, 34, 25, 0.92);
+    --cafe-surface-card: rgba(18, 42, 31, 0.85);
+    --cafe-border: rgba(46, 196, 182, 0.28);
+    --cafe-accent: #2ec4b6;
+    --cafe-gold: #e9c46a;
+    --cafe-gold-glow: rgba(233, 196, 106, 0.35);
+  }
+
+  body {
+    background-color: var(--cafe-dark) !important;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(46, 196, 182, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(233, 196, 106, 0.1) 0%, transparent 45%),
+      radial-gradient(rgba(46, 196, 182, 0.05) 1px, transparent 0) !important;
+    background-size: cover, cover, 26px 26px !important;
+    color: #e2e8f0;
+  }
+
+  .dev-container {
+    max-width: 1050px;
+    margin: 20px auto 60px;
+  }
+
+  .glass-card {
+    background: var(--cafe-surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--cafe-border);
+    border-radius: 28px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(46, 196, 182, 0.12);
+    overflow: hidden;
+  }
+
+  /* Profile Header */
+  .profile-banner {
+    background: linear-gradient(135deg, rgba(20, 50, 37, 0.95) 0%, rgba(8, 20, 14, 0.98) 100%);
+    border-bottom: 1px solid var(--cafe-border);
+    padding: 45px 40px;
+    position: relative;
+  }
+
+  .profile-photo-wrap {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    padding: 6px;
+    background: linear-gradient(135deg, #2ec4b6, #e9c46a);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(46, 196, 182, 0.45);
+    margin: 0 auto;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .profile-photo-wrap:hover{
+    transform: scale(1.04);
+  }
+
+  .profile-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #08160f;
+  }
+
+  .profile-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .role-badge {
+    background: rgba(233, 196, 106, 0.15);
+    color: var(--cafe-gold);
+    border: 1px solid rgba(233, 196, 106, 0.35);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 50px;
+    display: inline-block;
+  }
+
+  /* CTA Buttons */
+  .btn-resume {
+    background: linear-gradient(135deg, #e9c46a 0%, #caa13f 100%);
+    color: #07160e !important;
+    font-weight: 800;
+    font-size: 0.95rem;
+    border-radius: 14px;
+    padding: 12px 24px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(233, 196, 106, 0.3);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-resume:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(233, 196, 106, 0.45);
+    color: #000 !important;
+  }
+
+  .btn-social {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(8, 20, 14, 0.85);
+    border: 1px solid var(--cafe-border);
+    color: #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+
+  .btn-social:hover {
+    background: var(--cafe-accent);
+    color: #07160e;
+    border-color: var(--cafe-accent);
+    transform: translateY(-3px);
+  }
+
+  .btn-social.github:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+
+  .btn-social.linkedin:hover {
+    background: #0a66c2;
+    color: #fff;
+    border-color: #0a66c2;
+  }
+
+  .btn-social.instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: #fff;
+  }
+
+  /* Info Section Cards */
+  .detail-box {
+    background: var(--cafe-surface-card);
+    border: 1px solid var(--cafe-border);
+    border-radius: 20px;
+    padding: 26px;
+    height: 100%;
+    transition: all 0.25s ease;
+  }
+
+  .detail-box:hover {
+    border-color: var(--cafe-gold);
+    transform: translateY(-3px);
+  }
+
+  .icon-lead {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(46, 196, 182, 0.15);
+    border: 1px solid rgba(46, 196, 182, 0.3);
+    color: var(--cafe-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .skill-badge {
+    background: rgba(46, 196, 182, 0.12);
+    border: 1px solid rgba(46, 196, 182, 0.3);
+    color: #ffffff;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 600;
+  }
+
+  .contact-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .contact-link:hover {
+    color: var(--cafe-gold);
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container dev-container">
+  <div class="glass-card">
+
+    <!-- Top Showcase Banner -->
+    <div class="profile-banner">
+      <div class="row align-items-center g-4 text-center text-lg-start">
+
+        <!-- Profile Picture Column -->
+        <div class="col-lg-3 text-center">
+          <div class="profile-photo-wrap">
+            <!-- Agar photo na mile toh fallback avatar icon display hoga -->
+            <img src="{% static 'images/sachin.jpg' %}"
+              onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Sachin+Maurya&background=0d281e&color=e9c46a&size=200&bold=true';"
+              alt="Sachin Maurya" class="profile-photo">
+          </div>
+        </div>
+
+        <!-- Bio & Heading Column -->
+        <div class="col-lg-6">
+          <span class="role-badge mb-2">🎓 Lead Developer & Architect</span>
+          <h1 class="profile-name mb-1">Sachin Maurya</h1>
+          <p class="text-white-50 mb-3" style="font-size: 1.05rem;">
+            Full-Stack Python/Django Engineer & College Capstone Project Creator
+          </p>
+          <p class="text-secondary small mb-0" style="line-height: 1.6; max-width: 520px;">
+            Architect of the <strong>Swaad-e-Sehat</strong> Contactless QR Dine-In Management Ecosystem. Passionate
+            about designing resilient web applications, session-driven architectures, and modern aesthetic UI.
+          </p>
+        </div>
+
+        <!-- Quick Action & Socials -->
+        <div class="col-lg-3 text-center text-lg-end">
+          <div class="d-flex flex-column gap-3 align-items-center align-items-lg-end">
+            <!-- Resume Download Link -->
+            <a href="{% static 'docs/sachin_resume.pdf' %}" download="Sachin_Maurya_Resume.pdf" class="btn-resume">
+              <i class="bi bi-file-earmark-arrow-down-fill fs-5"></i> Download Resume
+            </a>
+
+            <!-- Social Media Handles -->
+            <div class="d-flex gap-2 mt-1">
+              <a href="https://github.com/EkalvyaKushawaha" target="_blank" class="btn-social github"
+                title="GitHub Profile">
+                <i class="bi bi-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/sachin-maurya-ekalavya" target="_blank" class="btn-social linkedin"
+                title="LinkedIn Profile">
+                <i class="bi bi-linkedin"></i>
+              </a>
+              <a href="https://instagram.com/sk20062005" target="_blank" class="btn-social instagram"
+                title="Instagram">
+                <i class="bi bi-instagram"></i>
+              </a>
+              <a href="mailto:sachinmaurya@gmail.com" class="btn-social" title="Send Email">
+                <i class="bi bi-envelope-fill"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="p-4 p-md-5">
+      <div class="row g-4">
+
+        <!-- Contact & Direct Reach -->
+        <div class="col-md-4">
+          <div class="detail-box">
+            <div class="icon-lead"><i class="bi bi-person-lines-fill"></i></div>
+            <h5 class="fw-bold text-white mb-3">Direct Contact</h5>
+
+            <div class="mb-3">
+              <small class="text-secondary d-block">Phone / WhatsApp</small>
+              <a href="tel:+917408353284" class="contact-link fw-bold">+91 7408353284</a>
+            </div>
+
+            <div class="mb-3">
+              <small class="text-secondary d-block">Email Address</small>
+              <a href="mailto:mr.sk.20042006@gmail.com" class="contact-link fw-bold">mr.sk.20042006@gmail.com</a>
+            </div>
+
+            <div class="mb-0">
+              <small class="text-secondary d-block">Location</small>
+              <span class="text-white">Lucknow, Uttar Pradesh, India</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capstone Project Overview -->
+        <div class="col-md-4">
+          <div class="detail-box">
+            <div class="icon-lead"><i class="bi bi-award-fill"></i></div>
+            <h5 class="fw-bold text-white mb-3">Project Credentials</h5>
+
+            <div class="mb-2">
+              <small class="text-secondary d-block">System Title</small>
+              <span class="text-white fw-semibold">Swaad-e-Sehat Cafe System</span>
+            </div>
+
+            <div class="mb-2">
+              <small class="text-secondary d-block">Core Focus</small>
+              <span class="text-white">Contactless Dynamic QR Dine-in</span>
+            </div>
+
+            <div class="mb-0">
+              <small class="text-secondary d-block">Architecture</small>
+              <span class="text-white">Zero-Login Session Persistence & Staff Kitchen RBAC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech Stack Matrix -->
+        <div class="col-md-4">
+          <div class="detail-box">
+            <div class="icon-lead"><i class="bi bi-code-square"></i></div>
+            <h5 class="fw-bold text-white mb-3">Technical Toolkit</h5>
+
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <span class="skill-badge">Python 3.12</span>
+              <span class="skill-badge">Django 5</span>
+              <span class="skill-badge">SQLite / PostgreSQL</span>
+              <span class="skill-badge">Bootstrap 5</span>
+              <span class="skill-badge">REST Logic</span>
+              <span class="skill-badge">Dynamic QR Gen</span>
+              <span class="skill-badge">Git & GitHub</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Footer Strip -->
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-4 mt-4 border-top border-secondary border-opacity-25">
+        <a href="/" class="btn btn-outline-light rounded-pill px-4 py-2">
+          <i class="bi bi-arrow-left me-1"></i> Return to Cafe Home
+        </a>
+
+        <div class="d-flex gap-2">
+          <a href="/tables/print/1/" class="btn rounded-pill px-4 py-2 fw-bold"
+            style="background: var(--cafe-accent); color: #07130c;">
+            <i class="bi bi-qr-code me-1"></i> Live Table 1 Demo
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

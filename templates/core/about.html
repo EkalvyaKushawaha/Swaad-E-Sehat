@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% block title %}Hamari Kahani | Swaad-e-Sehat Cafe{% endblock %}
+
+{% block content %}
+<style>
+  /* Premium Dark Organic Cafe Palette */
+  :root {
+    --cafe-bg-dark: #0a1811;
+    --cafe-card: #12281e;
+    --cafe-accent: #2ec4b6;
+    --cafe-gold: #e9c46a;
+    --cafe-sand: #f4a261;
+    --text-muted: #94a3b8;
+  }
+
+  body {
+    background-color: var(--cafe-bg-dark) !important;
+    color: #e2e8f0;
+  }
+
+  /* Hero Section */
+  .about-hero {
+    position: relative;
+    border-radius: 28px;
+    padding: 110px 40px;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    background: linear-gradient(180deg, rgba(10, 24, 17, 0.4) 0%, rgba(10, 24, 17, 0.96) 100%),
+                url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+  }
+
+  .about-hero-badge {
+    background: rgba(46, 196, 182, 0.15);
+    border: 1px solid rgba(46, 196, 182, 0.4);
+    color: var(--cafe-accent);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 30px;
+    display: inline-block;
+  }
+
+  .about-hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.6rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Glassmorphism Story Box */
+  .story-card {
+    background: rgba(18, 40, 30, 0.85);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .story-img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(233, 196, 106, 0.25);
+  }
+
+  /* 4 Pillars Card */
+  .pillar-card {
+    background: rgba(18, 40, 30, 0.6);
+    border: 1px solid rgba(46, 196, 182, 0.18);
+    border-radius: 20px;
+    padding: 32px 24px;
+    transition: all 0.35s ease;
+    height: 100%;
+  }
+
+  .pillar-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cafe-accent);
+    box-shadow: 0 15px 35px rgba(46, 196, 182, 0.2);
+    background: rgba(22, 50, 37, 0.9);
+  }
+
+  .pillar-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: rgba(46, 196, 182, 0.15);
+    color: var(--cafe-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  /* Photo Gallery Grid */
+  .gallery-img-box {
+    position: relative;
+    height: 270px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .gallery-img-box:hover .gallery-img {
+    transform: scale(1.08);
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(10, 24, 17, 0.95), transparent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  /* Founder Quote Section */
+  .quote-box {
+    background: linear-gradient(135deg, rgba(233, 196, 106, 0.12), rgba(46, 196, 182, 0.08));
+    border-left: 4px solid var(--cafe-gold);
+    border-radius: 18px;
+    padding: 35px;
+    margin: 60px 0;
+  }
+
+  /* CTA Banner */
+  .cta-banner {
+    background: linear-gradient(135deg, #133926, #1e4d35);
+    border-radius: 24px;
+    padding: 50px 30px;
+    border: 1px solid rgba(46, 196, 182, 0.3);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-accent {
+    background: linear-gradient(135deg, #2ec4b6, #208b81);
+    color: #fff !important;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 12px 28px;
+    border: none;
+    box-shadow: 0 8px 20px rgba(46, 196, 182, 0.3);
+    transition: all 0.25s ease;
+  }
+
+  .btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(46, 196, 182, 0.45);
+  }
+</style>
+
+<div class="container my-4">
+
+  <!-- 1. HERO BANNER -->
+  <div class="about-hero text-center">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <span class="about-hero-badge">🍃 Swaad-e-Sehat Heritage</span>
+        <h1 class="about-hero-title">Jahan Swad Milta Hai Shuddhata Se.</h1>
+        <p class="lead text-light mb-0" style="color: #cbd5e1 !important; line-height: 1.8;">
+          Hum sirf khana nahi paroste, balki har ek cup brew aur har ek bowl recipe ke piche prakritik shuddhata, Ayurvedic santulan aur sukoon bhara cafe vatavaran pesh karte hain.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. STORY & PHILOSOPHY -->
+  <div class="story-card mb-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="text-uppercase fw-bold text-warning small letter-spacing-2" style="color: var(--cafe-gold) !important; letter-spacing: 2px;">
+          HAR DISH MEIN EK KAHANI
+        </span>
+        <h2 class="display-6 fw-bold text-white mt-2 mb-4" style="font-family: 'Playfair Display', Georgia, serif;">
+          Farm Fresh Ingredients Aur Authentic Passion
+        </h2>
+        <p class="text-secondary mb-3" style="font-size: 1.05rem; line-height: 1.8; color: #94a3b8 !important;">
+          <strong>Swaad-e-Sehat</strong> ki shuruat is seedhe vichar se hui thi: <em>"Kya swad aur sehat ek saath nahi chal sakte?"</em> Fast-food ke daur me humne purani paramparaon ko chuna — jahan bina kisi artificial preservative, palm oil ya refined sugar ke, asli desi anaj aur taazi kheti se dishes banti hain.
+        </p>
+        <p class="text-secondary mb-4" style="font-size: 1.05rem; line-height: 1.8; color: #94a3b8 !important;">
+          Humare cafe me har subah fresh organic veggies, microgreens aur cold-pressed oils deliver hote hain. Yahan ka har corner sukoon bhara hai jahan aap baith kar doston ke sath fresh juices aur healthy bowls ka lutf le sakte hain.
+        </p>
+        <div class="d-flex gap-4">
+          <div>
+            <h3 class="fw-bold mb-0 text-white" style="color: var(--cafe-accent) !important;">100%</h3>
+            <small class="text-secondary">Prakritik & Organic</small>
+          </div>
+          <div class="border-start border-secondary ps-4">
+            <h3 class="fw-bold mb-0 text-white" style="color: var(--cafe-accent) !important;">0%</h3>
+            <small class="text-secondary">Refined Sugars / Oils</small>
+          </div>
+          <div class="border-start border-secondary ps-4">
+            <h3 class="fw-bold mb-0 text-white" style="color: var(--cafe-accent) !important;">50+</h3>
+            <small class="text-secondary">Artisanal Recipes</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80" alt="Cafe Kitchen Ambience" class="story-img">
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FOUR CORE PILLARS -->
+  <div class="text-center mb-5 mt-5">
+    <span class="about-hero-badge">Hamare 4 Mulmantra</span>
+    <h2 class="display-6 fw-bold text-white mt-2" style="font-family: 'Playfair Display', Georgia, serif;">
+      Humein Kya Khas Banata Hai?
+    </h2>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-md-6 col-lg-3">
+      <div class="pillar-card">
+        <div class="pillar-icon"><i class="bi bi-tree"></i></div>
+        <h4 class="fw-bold text-white mb-2">Farm to Table</h4>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6; color: #94a3b8 !important;">
+          Local kisaanon se direct li gayi sabziyan aur phal, jo bina chemical pesticides ke ugayi jati hain.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="pillar-card">
+        <div class="pillar-icon"><i class="bi bi-droplet-half"></i></div>
+        <h4 class="fw-bold text-white mb-2">Cold Pressed Pure</h4>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6; color: #94a3b8 !important;">
+          Dheemi aanch aur lakdi ki ghani ke tel (cold-pressed) ka upyog jo nutrients ko zinda rakhta hai.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="pillar-card">
+        <div class="pillar-icon"><i class="bi bi-heart-pulse"></i></div>
+        <h4 class="fw-bold text-white mb-2">Ayurvedic Wisdom</h4>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6; color: #94a3b8 !important;">
+          Har recipe me masalon aur tatvon ka wo santulan jo pachne me aasan ho aur sharir ko energy de.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="pillar-card">
+        <div class="pillar-icon"><i class="bi bi-cup-hot"></i></div>
+        <h4 class="fw-bold text-white mb-2">Zen Cafe Ambience</h4>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6; color: #94a3b8 !important;">
+          Aesthetic lighting, dark teakwood decor aur organic plants ke sath chill karne ka perfect space.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. VISUAL CAFE AMBIENCE GALLERY -->
+  <div class="text-center mb-4 mt-5">
+    <span class="about-hero-badge">Cafe Glimpses</span>
+    <h2 class="display-6 fw-bold text-white mt-2" style="font-family: 'Playfair Display', Georgia, serif;">
+      Swaad-e-Sehat Ka Vatavaran
+    </h2>
+    <p class="text-secondary">Ek nazar humare dining space, brew bar aur kitchen craft par.</p>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-md-6 col-lg-3">
+      <div class="gallery-img-box">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80" alt="Dining Room" class="gallery-img">
+        <div class="gallery-overlay">Warm Dine-In Hall</div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="gallery-img-box">
+        <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=700&q=80" alt="Brew Bar" class="gallery-img">
+        <div class="gallery-overlay">Artisan Coffee & Brew Bar</div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="gallery-img-box">
+        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=700&q=80" alt="Fresh Plating" class="gallery-img">
+        <div class="gallery-overlay">Handmade Healthy Bowls</div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="gallery-img-box">
+        <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=700&q=80" alt="Outdoor Green Corner" class="gallery-img">
+        <div class="gallery-overlay">Organic Green Seating</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CHEF'S QUOTE -->
+  <div class="quote-box">
+    <div class="row align-items-center">
+      <div class="col-md-2 text-center mb-3 mb-md-0">
+        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=300&q=80" alt="Head Chef" class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid var(--cafe-gold);">
+      </div>
+      <div class="col-md-10">
+        <p class="fst-italic fs-5 text-light mb-2">
+          "Humara maqsad sirf pet bharna nahi, balki har ek morsel se aapke tan aur man dono ko taro-taza mehsoos karana hai. Kitchen me banne wali har cheez me wahi nishtha hoti hai jo hum apne parivar ke liye banate waqt rakhte hain."
+        </p>
+        <div class="fw-bold" style="color: var(--cafe-gold);">Chef & Founder Team</div>
+        <small class="text-secondary">Swaad-e-Sehat Culinary Arts</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. RESERVATION & ORDER CALL TO ACTION -->
+  <div class="cta-banner text-center text-md-start">
+    <div class="row align-items-center">
+      <div class="col-md-8 mb-4 mb-md-0">
+        <h3 class="fw-bold text-white mb-2" style="font-family: 'Playfair Display', Georgia, serif;">
+          Kya Aap Hamare Sath Ek Sukoon Bhari Shaam Bitana Chahte Hain?
+        </h3>
+        <p class="text-light mb-0" style="opacity: 0.85;">
+          Chahe dost ke sath table book karni ho ya ghar par baith kar fresh order enjoy karna ho, Swaad-e-Sehat hamesha taiyar hai.
+        </p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="{% url 'home' %}" class="btn btn-accent btn-lg me-2 mb-2">
+          <i class="bi bi-book-half me-1"></i> View Menu
+        </a>
+        <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg mb-2" style="border-radius: 12px; font-weight: 600;">
+          <i class="bi bi-geo-alt me-1"></i> Contact Us
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

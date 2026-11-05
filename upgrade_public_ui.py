@@ -1,0 +1,364 @@
+import os
+
+css_code = """
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
+:root {
+  --cafe-dark: #0b1f14;
+  --cafe-green: #153e28;
+  --cafe-leaf: #2d6a4f;
+  --cafe-accent: #2ec4b6;
+  --cafe-gold: #e9c46a;
+  --cafe-bg: #f7f9f7;
+  --card-bg: #ffffff;
+  --radius-xl: 20px;
+  --radius-sm: 10px;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--cafe-bg);
+  color: #1e293b;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .brand-font {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Glassmorphism Navbar */
+.navbar {
+  background: rgba(11, 31, 20, 0.95) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #fff !important;
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 8px 16px !important;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--cafe-accent) !important;
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, rgba(11, 31, 20, 0.95), rgba(21, 62, 40, 0.92)),
+              url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  color: #fff;
+  border-radius: 28px;
+  padding: 85px 50px;
+  margin-top: 25px;
+  margin-bottom: 50px;
+  box-shadow: 0 25px 50px rgba(11, 31, 20, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Luxury Food Card */
+.food-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.food-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(21, 62, 40, 0.12);
+  border-color: rgba(46, 196, 182, 0.3);
+}
+
+.food-card-img-wrap {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.food-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.food-card:hover .food-card-img {
+  transform: scale(1.08);
+}
+
+.food-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(11, 31, 20, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--cafe-gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.food-card-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.food-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cafe-dark);
+  margin-bottom: 8px;
+}
+
+.food-card-desc {
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.food-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 15px;
+  margin-top: auto;
+}
+
+.food-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--cafe-leaf);
+}
+
+/* Custom Buttons */
+.btn-prime {
+  background: linear-gradient(135deg, #2ec4b6, #208b81);
+  color: #fff !important;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 8px 20px rgba(46, 196, 182, 0.25);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-prime:hover {
+  background: linear-gradient(135deg, #208b81, #16635c);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 196, 182, 0.35);
+}
+
+.btn-prime-outline {
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: #fff !important;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.btn-prime-outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+.btn-add-cart {
+  background: #153e28;
+  color: #fff;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-add-cart:hover {
+  background: #2ec4b6;
+  color: #fff;
+}
+
+/* Category Filter Pills */
+.category-pill {
+  padding: 8px 20px;
+  border-radius: 30px;
+  background: #fff;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
+  display: inline-block;
+  margin: 4px;
+}
+
+.category-pill:hover, .category-pill.active {
+  background: var(--cafe-green);
+  color: #fff;
+  border-color: var(--cafe-green);
+  box-shadow: 0 4px 15px rgba(21, 62, 40, 0.2);
+}
+
+/* Modern Footer */
+footer {
+  background: var(--cafe-dark);
+  color: #94a3b8;
+  padding: 60px 0 30px;
+  margin-top: 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+footer h5 {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+footer a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer a:hover {
+  color: var(--cafe-accent);
+}
+"""
+
+home_template = """{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Banner -->
+<div class="hero-section">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <span class="badge px-3 py-2 rounded-pill mb-3" style="background: rgba(46,196,182,0.18); color: #2ec4b6; font-weight: 700; letter-spacing: 1px;">
+        🍃 100% ORGANIC & FRESH
+      </span>
+      <h1 class="hero-title">Taste the Purity of Nature at Swaad-e-Sehat</h1>
+      <p class="hero-subtitle">
+        Nutrient-rich bowls, hand-crafted cold brews, aur guilt-free wholesome culinary experiences designed for your vitality.
+      </p>
+      <div class="d-flex flex-wrap gap-3">
+        <a href="#menu-section" class="btn-prime">
+          <i class="bi bi-compass"></i> Explore Menu
+        </a>
+        <a href="{% url 'cart' %}" class="btn-prime-outline">
+          <i class="bi bi-bag"></i> View Cart
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Category Filters -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3" id="menu-section">
+  <div>
+    <h2 class="fw-bold mb-1" style="color: var(--cafe-dark);">Our Curated Menu</h2>
+    <p class="text-muted mb-0">Handmade with farm-fresh organic ingredients.</p>
+  </div>
+  <div>
+    <a href="{% url 'home' %}" class="category-pill active">All Items</a>
+    {% for cat in categories %}
+      <a href="?category={{ cat.id }}" class="category-pill">{{ cat.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Food Cards Grid -->
+<div class="row g-4">
+  {% for item in items %}
+  <div class="col-md-6 col-lg-4">
+    <div class="food-card">
+      <div class="food-card-img-wrap">
+        {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.name }}" class="food-card-img">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="{{ item.name }}" class="food-card-img">
+        {% endif %}
+        <span class="food-badge">{{ item.category.name|default:"Organic Special" }}</span>
+      </div>
+      <div class="food-card-body">
+        <h4 class="food-card-title">{{ item.name }}</h4>
+        <p class="food-card-desc">{{ item.description|truncatewords:16 }}</p>
+        <div class="food-card-footer">
+          <div class="food-price">₹{{ item.price }}</div>
+          <a href="{% url 'add_to_cart' item.id %}" class="btn-add-cart">
+            <i class="bi bi-cart-plus me-1"></i> Add to Order
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12 text-center py-5">
+    <h5 class="text-muted">Abhi menu me items load ho rahe hain.</h5>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+"""
+
+os.makedirs('static/css', exist_ok=True)
+os.makedirs('templates', exist_ok=True)
+
+with open('static/css/style.css', 'w', encoding='utf-8') as f:
+    f.write(css_code.strip())
+
+with open('templates/home.html', 'w', encoding='utf-8') as f:
+    f.write(home_template.strip())
+
+print("\n>>> SUCCESS: Modern Advance UI & Hero Experience Installed! <<<\n")

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Banner -->
+<div class="hero-section">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <span class="badge px-3 py-2 rounded-pill mb-3" style="background: rgba(46,196,182,0.18); color: #2ec4b6; font-weight: 700; letter-spacing: 1px;">
+        🍃 100% ORGANIC & FRESH
+      </span>
+      <h1 class="hero-title">Taste the Purity of Nature at Swaad-e-Sehat</h1>
+      <p class="hero-subtitle">
+        Nutrient-rich bowls, hand-crafted cold brews, aur guilt-free wholesome culinary experiences designed for your vitality.
+      </p>
+      <div class="d-flex flex-wrap gap-3">
+        <a href="#menu-section" class="btn-prime">
+          <i class="bi bi-compass"></i> Explore Menu
+        </a>
+        <a href="{% url 'cart' %}" class="btn-prime-outline">
+          <i class="bi bi-bag"></i> View Cart
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Category Filters -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3" id="menu-section">
+  <div>
+    <h2 class="fw-bold mb-1" style="color: var(--cafe-dark);">Our Curated Menu</h2>
+    <p class="text-muted mb-0">Handmade with farm-fresh organic ingredients.</p>
+  </div>
+  <div>
+    <a href="{% url 'home' %}" class="category-pill active">All Items</a>
+    {% for cat in categories %}
+      <a href="?category={{ cat.id }}" class="category-pill">{{ cat.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Food Cards Grid -->
+<div class="row g-4">
+  {% for item in items %}
+  <div class="col-md-6 col-lg-4">
+    <div class="food-card">
+      <div class="food-card-img-wrap">
+        {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.name }}" class="food-card-img">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="{{ item.name }}" class="food-card-img">
+        {% endif %}
+        <span class="food-badge">{{ item.category.name|default:"Organic Special" }}</span>
+      </div>
+      <div class="food-card-body">
+        <h4 class="food-card-title">{{ item.name }}</h4>
+        <p class="food-card-desc">{{ item.description|truncatewords:16 }}</p>
+        <div class="food-card-footer">
+          <div class="food-price">₹{{ item.price }}</div>
+          <a href="{% url 'add_to_cart' item.id %}" class="btn-add-cart">
+            <i class="bi bi-cart-plus me-1"></i> Add to Order
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12 text-center py-5">
+    <h5 class="text-muted">Abhi menu me items load ho rahe hain.</h5>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
