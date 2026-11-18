@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tprhwd*7moedwxe#=vzpr$u#787zs57m5rc6*=()by04&6@@yd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['swaad-e-sehat.onrender.com','localhost','127.0.0.1']
 
 
 # Application definition
@@ -125,7 +125,10 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+
 ]
+STATIC_ROOT =BASE_DIR / 'staticfiles'
+
 
 # Uploaded files (Food Images)
 

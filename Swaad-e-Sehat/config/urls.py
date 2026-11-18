@@ -7,21 +7,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
 
-# Home page and core pages
-path('', include('core.urls')),
+    # Home page and core pages
+    path('', include('core.urls')),
 
-# Orders and cart pages
-path('', include('orders.urls')),
+    # Orders and cart pages
+    path('', include('orders.urls')),
 
-# Food management pages
-path('food/', include('menu.urls')),
+    # Food management pages
+    path('food/', include('menu.urls')),
 
+    
 ]
 
 if settings.DEBUG:
     urlpatterns += static(
-settings.MEDIA_URL,
-document_root=settings.MEDIA_ROOT
-)
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
